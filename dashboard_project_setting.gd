@@ -2,7 +2,6 @@
 extends DashboardItem
 class_name DashboardProjectSetting
 
-@export var name: String
 @export var setting: String
 
 @export_tool_button("Pick project setting") var select_action: Callable = select_node_property

@@ -2,7 +2,6 @@
 extends DashboardItem
 class_name DashboardProperty
 
-@export var name: String
 @export var property_path: String
 
 @export_tool_button("Pick scene property") var select_action: Callable = select_node_property
@@ -24,7 +23,10 @@ func _on_property_selected(prop_path: NodePath, node_path: NodePath) -> void:
 
 func get_property_descriptor() -> Dictionary:
     var node_path: NodePath = NodePath(property_path)
-    var path := EditorInterface.get_edited_scene_root().get_node_and_resource(node_path)
+    var root: Node = EditorInterface.get_edited_scene_root()
+    if root == null:
+        return {}
+    var path := root.get_node_and_resource(node_path)
     var node: Node = path[0]
 
     if node == null:

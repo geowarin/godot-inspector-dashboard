@@ -2,7 +2,6 @@
 extends DashboardItem
 class_name DashboardEditorSetting
 
-@export var name: String
 @export var setting: String
 
 @export_tool_button("Pick editor setting") var select_action: Callable = select_node_property

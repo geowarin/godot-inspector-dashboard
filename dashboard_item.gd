@@ -10,3 +10,10 @@ func set_property(_value: Variant) -> bool:
 
 func get_property() -> Variant:
     return null
+
+func get_property_name() -> String:
+    var prop := get_property_descriptor()
+    if prop.is_empty():
+        return ""
+    var name: String = prop.get("name", "")
+    return name.replace("/", "_").replace(":", "_")

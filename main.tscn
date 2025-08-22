@@ -1,33 +1,38 @@
-[gd_scene load_steps=7 format=3 uid="uid://b5d3dwd30gcj2"]
+[gd_scene load_steps=9 format=3 uid="uid://b5d3dwd30gcj2"]
 
 [ext_resource type="Script" uid="uid://dmoypqfrwucsp" path="res://dashboard.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://nff7yngno0nn" path="res://dashboard_item.gd" id="2_h2yge"]
-[ext_resource type="Script" uid="uid://dp82pfqheusb3" path="res://dashboard_property.gd" id="3_1bvp3"]
 [ext_resource type="Script" uid="uid://60q8d0fog76v" path="res://dashboard_project_setting.gd" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://dp82pfqheusb3" path="res://dashboard_property.gd" id="4_lquwl"]
+[ext_resource type="Script" uid="uid://mydxk245oy7n" path="res://dashboard_editor_setting.gd" id="5_lquwl"]
 
-[sub_resource type="Resource" id="Resource_lquwl"]
-script = ExtResource("3_1bvp3")
-name = "Sun light"
-property_path = "Main/DirectionalLight3D:light_color"
-metadata/_custom_type_script = "uid://dp82pfqheusb3"
-
-[sub_resource type="Resource" id="Resource_7mycd"]
+[sub_resource type="Resource" id="Resource_h2yge"]
 script = ExtResource("4_1bvp3")
-name = "Shadow size"
 setting = "rendering/lights_and_shadows/directional_shadow/size"
 metadata/_custom_type_script = "uid://60q8d0fog76v"
 
+[sub_resource type="Resource" id="Resource_7mycd"]
+script = ExtResource("4_lquwl")
+property_path = "Main/DirectionalLight3D:light_color"
+metadata/_custom_type_script = "uid://dp82pfqheusb3"
+
+[sub_resource type="Resource" id="Resource_272bh"]
+script = ExtResource("5_lquwl")
+setting = "interface/editor/dock_tab_style"
+metadata/_custom_type_script = "uid://mydxk245oy7n"
+
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_0xm2m")
-properties = Array[ExtResource("2_h2yge")]([SubResource("Resource_lquwl"), SubResource("Resource_7mycd")])
-"Sun light" = Color(0.970183, 0.620095, 0.486822, 1)
-"Shadow size" = 4096
+properties = Array[ExtResource("2_h2yge")]([SubResource("Resource_h2yge"), SubResource("Resource_7mycd"), SubResource("Resource_272bh")])
+rendering_lights_and_shadows_directional_shadow_size = 4096
+light_color = Color(0.701435, 0.742041, 0.611133, 1)
+interface_editor_dock_tab_style = 2
 
 [node name="Main" type="Node3D" parent="."]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Main"]
 transform = Transform3D(-0.0430615, 0.683912, -0.728293, 0, 0.728969, 0.684547, 0.999072, 0.0294776, -0.0313905, 0, 7.15847, 0)
-light_color = Color(0.970183, 0.620095, 0.486822, 1)
+light_color = Color(0.701435, 0.742041, 0.611133, 1)
 light_energy = 2.168
 shadow_enabled = true
 

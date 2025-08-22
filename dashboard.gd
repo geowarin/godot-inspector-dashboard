@@ -23,7 +23,7 @@ func _get_property_list() -> Array[Dictionary]:
         if prop.is_empty():
             continue
         var item_dict: Dictionary = {
-            "name": item.name,
+            "name": item.get_property_name(),
             "type": prop.type,
             "hint": prop.hint,
             "hint_string": prop.hint_string
@@ -33,15 +33,15 @@ func _get_property_list() -> Array[Dictionary]:
 
 func _set(property: StringName, value: Variant) -> bool:
     for item in properties:
-        if item.name == property:
+        if item.get_property_name() == property:
             return item.set_property(value)
     return false
 
 func _get(property: StringName) -> Variant:
     for item in properties:
-        if item == null || item.name.is_empty():
+        if item == null:
             continue
 
-        if item.name == property:
+        if item.get_property_name() == property:
             return item.get_property()
     return null
