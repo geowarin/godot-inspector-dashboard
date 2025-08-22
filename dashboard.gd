@@ -11,6 +11,8 @@ extends Node
                 prop.changed.connect(notify_property_list_changed)
         notify_property_list_changed()
 
+@export_tool_button("Refresh") var select_action: Callable = notify_property_list_changed
+
 func _get_property_list() -> Array[Dictionary]:
     var property_list: Array[Dictionary] = []
     for item in properties:
