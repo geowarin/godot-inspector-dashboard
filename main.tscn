@@ -1,38 +1,25 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5d3dwd30gcj2"]
+[gd_scene load_steps=5 format=3 uid="uid://b5d3dwd30gcj2"]
 
 [ext_resource type="Script" uid="uid://dmoypqfrwucsp" path="res://dashboard.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://nff7yngno0nn" path="res://dashboard_item.gd" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://dp82pfqheusb3" path="res://dashboard_property.gd" id="3_1bvp3"]
 
-[sub_resource type="Resource" id="Resource_1bvp3"]
-script = ExtResource("2_h2yge")
-name = "Sun Energy"
-property_path = "Main/DirectionalLight3D:light_energy"
-metadata/_custom_type_script = "uid://nff7yngno0nn"
-
-[sub_resource type="Resource" id="Resource_0xm2m"]
-script = ExtResource("2_h2yge")
-name = "Sun color"
+[sub_resource type="Resource" id="Resource_lquwl"]
+script = ExtResource("3_1bvp3")
+name = "Sun light"
 property_path = "Main/DirectionalLight3D:light_color"
-metadata/_custom_type_script = "uid://nff7yngno0nn"
-
-[sub_resource type="Resource" id="Resource_h2yge"]
-script = ExtResource("2_h2yge")
-name = "Toto"
-property_path = "Main/DirectionalLight3D:light_specular"
-metadata/_custom_type_script = "uid://nff7yngno0nn"
+metadata/_custom_type_script = "uid://dp82pfqheusb3"
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_0xm2m")
-properties = Array[ExtResource("2_h2yge")]([SubResource("Resource_1bvp3"), SubResource("Resource_0xm2m"), SubResource("Resource_h2yge")])
-"Sun Energy" = 2.168
-"Sun color" = Color(0.931484, 0.648329, 0.454201, 1)
-Toto = 1.0
+properties = Array[ExtResource("2_h2yge")]([SubResource("Resource_lquwl")])
+"Sun light" = Color(0.970183, 0.620095, 0.486822, 1)
 
 [node name="Main" type="Node3D" parent="."]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Main"]
 transform = Transform3D(1, 0, 0, 0, 0.728969, 0.684547, 0, -0.684547, 0.728969, 0, 7.15847, 0)
-light_color = Color(0.931484, 0.648329, 0.454201, 1)
+light_color = Color(0.970183, 0.620095, 0.486822, 1)
 light_energy = 2.168
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]

@@ -5,6 +5,8 @@ extends Node
     set(value):
         properties = value
         for prop in value:
+            if prop == null:
+                continue
             if !prop.changed.is_connected(notify_property_list_changed):
                 prop.changed.connect(notify_property_list_changed)
         notify_property_list_changed()
@@ -12,7 +14,10 @@ extends Node
 func _get_property_list() -> Array[Dictionary]:
     var property_list: Array[Dictionary] = []
     for item in properties:
-        var prop := get_property(item.property_path)
+        if item == null:
+            continue
+
+        var prop := item.get_property_descriptor()
         if prop.is_empty():
             continue
         var item_dict: Dictionary = {
@@ -27,12 +32,7 @@ func _get_property_list() -> Array[Dictionary]:
 func _set(property: StringName, value: Variant) -> bool:
     for item in properties:
         if item.name == property:
-            var prop := get_node_and_resource(item.property_path)
-            var node: Node = prop[0]
-            if node == null:
-                return false
-            node.set_indexed(prop[2], value)
-            return true
+            return item.set_property(value)
     return false
 
 func _get(property: StringName) -> Variant:
@@ -41,23 +41,5 @@ func _get(property: StringName) -> Variant:
             continue
 
         if item.name == property:
-            var prop := get_node_and_resource(item.property_path)
-            var node: Node = prop[0]
-            if node == null:
-                return null
-            return node.get_indexed(prop[2])
+            return item.get_property()
     return null
-
-
-func get_property(node_path: NodePath) -> Dictionary:
-    var path := get_node_and_resource(node_path)
-    var node: Node = path[0]
-
-    if node == null:
-        return {}
-
-    for prop in node.get_property_list():
-        if prop.name == node_path.get_subname(0):
-            return prop
-
-    return {}
