@@ -10,16 +10,40 @@ func select_node_property() -> void:
 	EditorInterface.popup_node_selector(_on_node_selected)
 
 func _on_node_selected(node_path: NodePath) -> void:
-	if !node_path.is_empty():
-		var node := EditorInterface.get_edited_scene_root().get_node_or_null(node_path)
-		if node == null:
-			return
-		EditorInterface.popup_property_selector(node, _on_property_selected.bind(node_path))
+	if node_path.is_empty():
+		return
 
-func _on_property_selected(prop_path: NodePath, node_path: NodePath) -> void:
-	if !prop_path.is_empty():
-		property_path = node_path.get_concatenated_names() + ":" + prop_path.get_concatenated_subnames()
-		emit_changed()
+	var node := EditorInterface.get_edited_scene_root().get_node_or_null(node_path)
+	if node == null:
+		return
+
+	EditorInterface.popup_property_selector(
+		node,
+		_on_object_property_selected.bind(node_path, node, PackedStringArray())
+	)
+
+func _on_object_property_selected(
+	prop_path: NodePath,
+	node_path: NodePath,
+	object: Object,
+	property_parts: PackedStringArray
+) -> void:
+	if prop_path.is_empty():
+		return
+
+	var next_property_parts := property_parts.duplicate()
+	next_property_parts.append(prop_path.get_concatenated_subnames())
+
+	var value: Variant = object.get_indexed(prop_path)
+	if value is Resource:
+		EditorInterface.popup_property_selector(
+			value,
+			_on_object_property_selected.bind(node_path, value, next_property_parts)
+		)
+		return
+
+	property_path = node_path.get_concatenated_names() + ":" + ":".join(next_property_parts)
+	emit_changed()
 
 func get_property_descriptor() -> Dictionary:
 	var node_path: NodePath = NodePath(property_path)

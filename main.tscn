@@ -44,7 +44,7 @@ sky = SubResource("Sky_7mycd")
 ssao_enabled = true
 glow_enabled = true
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.0912
+volumetric_fog_density = 0.0652
 
 [node name="Node3D" type="Node3D" unique_id=593138373]
 script = ExtResource("1_0xm2m")
@@ -53,7 +53,7 @@ rendering_lights_and_shadows_directional_shadow_size = 4096
 light_color = Color(0.82793486, 0.6459403, 0.86503315, 1)
 interface_editor_docks_dock_tab_style = 1
 rendering_anti_aliasing_quality_use_taa = true
-volumetric_fog_density = 0.0912
+volumetric_fog_density = 0.0652
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=842761218]
 environment = SubResource("Environment_272bh")
