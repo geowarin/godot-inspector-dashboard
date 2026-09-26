@@ -32,7 +32,8 @@ func _get_property_list() -> Array[Dictionary]:
 			"name": property_name,
 			"type": prop.type,
 			"hint": prop.hint,
-			"hint_string": prop.hint_string
+			"hint_string": prop.hint_string,
+			"usage": PROPERTY_USAGE_EDITOR
 		}
 		property_list.append(item_dict)
 	return property_list

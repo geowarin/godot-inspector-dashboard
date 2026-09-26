@@ -1,4 +1,5 @@
 @tool
+@abstract
 extends Resource
 class_name DashboardItem
 
@@ -21,5 +22,4 @@ func get_property_name() -> String:
 	var prop := get_property_descriptor()
 	if prop.is_empty():
 		return ""
-	var name: String = prop.get("name", "")
-	return name.replace("/", "_").replace(":", "_")
+	return prop.get("name", "")
