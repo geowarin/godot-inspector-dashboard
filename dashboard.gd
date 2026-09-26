@@ -31,17 +31,30 @@ func _get_property_list() -> Array[Dictionary]:
 		property_list.append(item_dict)
 	return property_list
 
-func _set(property: StringName, value: Variant) -> bool:
+func _find_item(property: StringName) -> DashboardItem:
 	for item in properties:
-		if item.get_property_name() == property:
-			return item.set_property(value)
-	return false
+		if item != null and item.get_property_name() == property:
+			return item
+	return null
+
+func _set(property: StringName, value: Variant) -> bool:
+	var item := _find_item(property)
+	if item == null:
+		return false
+	return item.set_property(value)
 
 func _get(property: StringName) -> Variant:
-	for item in properties:
-		if item == null:
-			continue
+	var item := _find_item(property)
+	if item == null:
+		return null
+	return item.get_property()
 
-		if item.get_property_name() == property:
-			return item.get_property()
-	return null
+func _property_can_revert(property: StringName) -> bool:
+	var item := _find_item(property)
+	return item != null and item.can_revert()
+
+func _property_get_revert(property: StringName) -> Variant:
+	var item := _find_item(property)
+	if item == null:
+		return null
+	return item.get_revert()

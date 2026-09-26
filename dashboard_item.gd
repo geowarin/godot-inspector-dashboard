@@ -11,6 +11,12 @@ func set_property(_value: Variant) -> bool:
 func get_property() -> Variant:
 	return null
 
+func can_revert() -> bool:
+	return false
+
+func get_revert() -> Variant:
+	return null
+
 func get_property_name() -> String:
 	var prop := get_property_descriptor()
 	if prop.is_empty():

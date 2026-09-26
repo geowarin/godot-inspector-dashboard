@@ -27,3 +27,13 @@ func set_property(value: Variant) -> bool:
 
 func get_property() -> Variant:
 	return ProjectSettings.get_setting(setting)
+
+func can_revert() -> bool:
+	if setting.is_empty():
+		return false
+	return ProjectSettings.property_can_revert(setting)
+
+func get_revert() -> Variant:
+	if setting.is_empty():
+		return null
+	return ProjectSettings.property_get_revert(setting)

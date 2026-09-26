@@ -33,3 +33,15 @@ func set_property(value: Variant) -> bool:
 func get_property() -> Variant:
 	var settings: EditorSettings = EditorInterface.get_editor_settings()
 	return settings.get(setting)
+
+func can_revert() -> bool:
+	if setting.is_empty():
+		return false
+	var settings: EditorSettings = EditorInterface.get_editor_settings()
+	return settings.property_can_revert(setting)
+
+func get_revert() -> Variant:
+	if setting.is_empty():
+		return null
+	var settings: EditorSettings = EditorInterface.get_editor_settings()
+	return settings.property_get_revert(setting)

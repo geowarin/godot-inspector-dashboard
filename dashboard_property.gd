@@ -18,15 +18,15 @@ func _on_node_selected(node_path: NodePath) -> void:
 		return
 
 	EditorInterface.popup_property_selector(
-		node,
-		_on_object_property_selected.bind(node_path, node, PackedStringArray())
+			node,
+			_on_object_property_selected.bind(node_path, node, PackedStringArray())
 	)
 
 func _on_object_property_selected(
-	prop_path: NodePath,
-	node_path: NodePath,
-	object: Object,
-	property_parts: PackedStringArray
+		prop_path: NodePath,
+		node_path: NodePath,
+		object: Object,
+		property_parts: PackedStringArray
 ) -> void:
 	if prop_path.is_empty():
 		return
@@ -37,51 +37,84 @@ func _on_object_property_selected(
 	var value: Variant = object.get_indexed(prop_path)
 	if value is Resource:
 		EditorInterface.popup_property_selector(
-			value,
-			_on_object_property_selected.bind(node_path, value, next_property_parts)
+				value,
+				_on_object_property_selected.bind(node_path, value, next_property_parts)
 		)
 		return
 
 	property_path = node_path.get_concatenated_names() + ":" + ":".join(next_property_parts)
 	emit_changed()
 
-func get_property_descriptor() -> Dictionary:
-	var node_path: NodePath = NodePath(property_path)
+# The node or resource that owns the property.
+func _get_target() -> Object:
 	var root: Node = EditorInterface.get_edited_scene_root()
-	if root == null:
+	if root == null or property_path.is_empty():
+		return null
+	var path := root.get_node_and_resource(NodePath(property_path))
+	if path[0] == null:
+		return null
+	return path[1] if path[1] != null else path[0]
+
+func _get_property_name() -> StringName:
+	var node_path := NodePath(property_path)
+	var count := node_path.get_subname_count()
+	if count == 0:
+		return &""
+	return node_path.get_subname(count - 1)
+
+func get_property_descriptor() -> Dictionary:
+	var target := _get_target()
+	if target == null:
 		return {}
-	var path := root.get_node_and_resource(node_path)
-	var node: Node = path[0]
 
-	if node == null:
-		return {}
-
-	var target: Object = path[1] if path[1] != null else node
-	var remaining_path: NodePath = path[2]
-	var property_name: StringName = remaining_path.get_subname(0) if remaining_path.get_subname_count() > 0 else node_path.get_subname(0)
-
+	var property_name := _get_property_name()
 	for prop in target.get_property_list():
 		if prop.name == property_name:
 			return prop
 
 	return {}
 
+func _get_node() -> Node:
+	var root: Node = EditorInterface.get_edited_scene_root()
+	if root == null or property_path.is_empty():
+		return null
+	return root.get_node_or_null(NodePath(property_path))
+
+# Property path relative to the node, e.g. ":material:albedo_color".
+func _get_indexed_path() -> NodePath:
+	return NodePath(":" + NodePath(property_path).get_concatenated_subnames())
+
 func set_property(value: Variant) -> bool:
-	var prop := EditorInterface.get_edited_scene_root().get_node_and_resource(property_path)
-	var node: Node = prop[0]
+	var node := _get_node()
 	if node == null:
 		return false
-
-	var target: Object = prop[1] if prop[1] != null else node
-	target.set_indexed(prop[2], value)
+	node.set_indexed(_get_indexed_path(), value)
 	return true
-	
 
 func get_property() -> Variant:
-	var prop := EditorInterface.get_edited_scene_root().get_node_and_resource(property_path)
-	var node: Node = prop[0]
+	var node := _get_node()
 	if node == null:
 		return null
+	return node.get_indexed(_get_indexed_path())
 
-	var target: Object = prop[1] if prop[1] != null else node
-	return target.get_indexed(prop[2])
+func can_revert() -> bool:
+	return get_revert() != null
+
+# Object.property_can_revert only covers classes overriding _property_can_revert,
+# so fall back to script and engine defaults like the regular inspector does.
+func get_revert() -> Variant:
+	var target := _get_target()
+	if target == null:
+		return null
+
+	var property_name := _get_property_name()
+	if target.property_can_revert(property_name):
+		return target.property_get_revert(property_name)
+
+	var script: Script = target.get_script()
+	if script != null:
+		var script_default: Variant = script.get_property_default_value(property_name)
+		if script_default != null:
+			return script_default
+
+	return ClassDB.class_get_property_default_value(target.get_class(), property_name)
