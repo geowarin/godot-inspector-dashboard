@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b5d3dwd30gcj2"]
+[gd_scene format=3 uid="uid://b5d3dwd30gcj2"]
 
 [ext_resource type="Script" uid="uid://dmoypqfrwucsp" path="res://dashboard.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://nff7yngno0nn" path="res://dashboard_item.gd" id="2_h2yge"]
@@ -18,27 +18,57 @@ metadata/_custom_type_script = "uid://dp82pfqheusb3"
 
 [sub_resource type="Resource" id="Resource_272bh"]
 script = ExtResource("5_lquwl")
-setting = "interface/editor/dock_tab_style"
+setting = "interface/editor/docks/dock_tab_style"
 metadata/_custom_type_script = "uid://mydxk245oy7n"
 
-[node name="Node3D" type="Node3D"]
+[sub_resource type="Resource" id="Resource_5vw27"]
+script = ExtResource("4_1bvp3")
+setting = "rendering/anti_aliasing/quality/use_taa"
+metadata/_custom_type_script = "uid://60q8d0fog76v"
+
+[sub_resource type="Resource" id="Resource_lquwl"]
+script = ExtResource("4_lquwl")
+property_path = "WorldEnvironment:environment:volumetric_fog_density"
+metadata/_custom_type_script = "uid://dp82pfqheusb3"
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lquwl"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_7mycd"]
+sky_material = SubResource("ProceduralSkyMaterial_lquwl")
+
+[sub_resource type="Environment" id="Environment_272bh"]
+background_mode = 2
+sky = SubResource("Sky_7mycd")
+ssao_enabled = true
+glow_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0912
+
+[node name="Node3D" type="Node3D" unique_id=593138373]
 script = ExtResource("1_0xm2m")
-properties = Array[ExtResource("2_h2yge")]([SubResource("Resource_h2yge"), SubResource("Resource_7mycd"), SubResource("Resource_272bh")])
+properties = Array[ExtResource("2_h2yge")]([SubResource("Resource_h2yge"), SubResource("Resource_7mycd"), SubResource("Resource_272bh"), SubResource("Resource_5vw27"), SubResource("Resource_lquwl")])
 rendering_lights_and_shadows_directional_shadow_size = 4096
-light_color = Color(0.701435, 0.742041, 0.611133, 1)
-interface_editor_dock_tab_style = 2
+light_color = Color(0.82793486, 0.6459403, 0.86503315, 1)
+interface_editor_docks_dock_tab_style = 1
+rendering_anti_aliasing_quality_use_taa = true
+volumetric_fog_density = 0.0912
 
-[node name="Main" type="Node3D" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=842761218]
+environment = SubResource("Environment_272bh")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Main"]
+[node name="Main" type="Node3D" parent="." unique_id=704884235]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Main" unique_id=438466084]
 transform = Transform3D(-0.0430615, 0.683912, -0.728293, 0, 0.728969, 0.684547, 0.999072, 0.0294776, -0.0313905, 0, 7.15847, 0)
-light_color = Color(0.701435, 0.742041, 0.611133, 1)
+light_color = Color(0.82793486, 0.6459403, 0.86503315, 1)
 light_energy = 2.168
 shadow_enabled = true
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=142458]
 size = Vector3(12, 1, 12)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=766458041]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0197, 0)
 size = Vector3(1, 2.92578, 1)

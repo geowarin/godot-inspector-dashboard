@@ -32,8 +32,12 @@ func get_property_descriptor() -> Dictionary:
 	if node == null:
 		return {}
 
-	for prop in node.get_property_list():
-		if prop.name == node_path.get_subname(0):
+	var target: Object = path[1] if path[1] != null else node
+	var remaining_path: NodePath = path[2]
+	var property_name: StringName = remaining_path.get_subname(0) if remaining_path.get_subname_count() > 0 else node_path.get_subname(0)
+
+	for prop in target.get_property_list():
+		if prop.name == property_name:
 			return prop
 
 	return {}
@@ -43,7 +47,9 @@ func set_property(value: Variant) -> bool:
 	var node: Node = prop[0]
 	if node == null:
 		return false
-	node.set_indexed(prop[2], value)
+
+	var target: Object = prop[1] if prop[1] != null else node
+	target.set_indexed(prop[2], value)
 	return true
 	
 
@@ -52,4 +58,6 @@ func get_property() -> Variant:
 	var node: Node = prop[0]
 	if node == null:
 		return null
-	return node.get_indexed(prop[2])
+
+	var target: Object = prop[1] if prop[1] != null else node
+	return target.get_indexed(prop[2])
