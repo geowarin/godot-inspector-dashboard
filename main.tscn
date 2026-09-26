@@ -58,6 +58,13 @@ volumetric_fog_enabled = true
 [node name="Node3D" type="Node3D" unique_id=593138373]
 script = ExtResource("1_0xm2m")
 properties = Array[ExtResource("2_lquwl")]([SubResource("Resource_h2yge"), SubResource("Resource_7mycd"), SubResource("Resource_272bh"), SubResource("Resource_5vw27"), SubResource("Resource_lquwl"), SubResource("Resource_kek77"), SubResource("Resource_4c57u")])
+Project/rendering/lights_and_shadows/directional_shadow/size = 4096
+Node/Main/DirectionalLight3D/light_color = Color(0.7897524, 0.82097393, 0.70141566, 1)
+Editor/interface/editor/docks/dock_tab_style = 0
+Project/rendering/anti_aliasing/quality/use_taa = true
+Node/WorldEnvironment/environment/volumetric_fog_density = 0.05
+Node/WorldEnvironment/environment/ssao_enabled = true
+Node/WorldEnvironment/environment/ssao_radius = 1.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=842761218]
 environment = SubResource("Environment_272bh")
@@ -66,7 +73,7 @@ environment = SubResource("Environment_272bh")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Main" unique_id=438466084]
 transform = Transform3D(-0.0430615, 0.683912, -0.728293, 0, 0.728969, 0.684547, 0.999072, 0.0294776, -0.0313905, 0, 7.15847, 0)
-light_color = Color(1, 0.7585, 0.31, 1)
+light_color = Color(0.7897524, 0.82097393, 0.70141566, 1)
 light_energy = 2.168
 shadow_enabled = true
 
