@@ -26,7 +26,7 @@ func _get_property_list() -> Array[Dictionary]:
 		var prop := item.get_property_descriptor()
 		if prop.is_empty():
 			continue
-		var property_name := StringName(item.get_property_name())
+		var property_name := item.get_property_name()
 		_items_by_name[property_name] = item
 		var item_dict: Dictionary = {
 			"name": property_name,

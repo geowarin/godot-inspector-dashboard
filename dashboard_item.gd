@@ -3,14 +3,9 @@
 extends Resource
 class_name DashboardItem
 
-func get_property_descriptor() -> Dictionary:
-	return {}
-
-func set_property(_value: Variant) -> bool:
-	return false
-
-func get_property() -> Variant:
-	return null
+@abstract func get_property_descriptor() -> Dictionary
+@abstract func set_property(_value: Variant) -> bool
+@abstract func get_property() -> Variant
 
 func can_revert() -> bool:
 	return false
