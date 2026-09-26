@@ -36,6 +36,11 @@ script = ExtResource("4_lquwl")
 property_path = "WorldEnvironment:environment:ssao_enabled"
 metadata/_custom_type_script = "uid://dp82pfqheusb3"
 
+[sub_resource type="Resource" id="Resource_4c57u"]
+script = ExtResource("4_lquwl")
+property_path = "WorldEnvironment:environment:ssao_radius"
+metadata/_custom_type_script = "uid://dp82pfqheusb3"
+
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lquwl"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
 ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -52,7 +57,7 @@ volumetric_fog_enabled = true
 
 [node name="Node3D" type="Node3D" unique_id=593138373]
 script = ExtResource("1_0xm2m")
-properties = Array[ExtResource("2_lquwl")]([SubResource("Resource_h2yge"), SubResource("Resource_7mycd"), SubResource("Resource_272bh"), SubResource("Resource_5vw27"), SubResource("Resource_lquwl"), SubResource("Resource_kek77")])
+properties = Array[ExtResource("2_lquwl")]([SubResource("Resource_h2yge"), SubResource("Resource_7mycd"), SubResource("Resource_272bh"), SubResource("Resource_5vw27"), SubResource("Resource_lquwl"), SubResource("Resource_kek77"), SubResource("Resource_4c57u")])
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=842761218]
 environment = SubResource("Environment_272bh")

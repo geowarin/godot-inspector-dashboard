@@ -45,3 +45,6 @@ func get_revert() -> Variant:
 		return null
 	var settings: EditorSettings = EditorInterface.get_editor_settings()
 	return settings.property_get_revert(setting)
+
+func get_source() -> StringName: return &"Editor"
+func get_key() -> String: return setting

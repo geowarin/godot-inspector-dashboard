@@ -118,3 +118,6 @@ func get_revert() -> Variant:
 			return script_default
 
 	return ClassDB.class_get_property_default_value(target.get_class(), property_name)
+
+func get_source() -> StringName: return &"Node"
+func get_key() -> String: return property_path.replace(":", "/")

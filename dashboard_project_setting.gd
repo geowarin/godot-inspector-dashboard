@@ -37,3 +37,6 @@ func get_revert() -> Variant:
 	if setting.is_empty():
 		return null
 	return ProjectSettings.property_get_revert(setting)
+
+func get_source() -> StringName: return &"Project"
+func get_key() -> String: return setting

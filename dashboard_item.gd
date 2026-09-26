@@ -18,8 +18,11 @@ func can_revert() -> bool:
 func get_revert() -> Variant:
 	return null
 
-func get_property_name() -> String:
-	var prop := get_property_descriptor()
-	if prop.is_empty():
-		return ""
-	return prop.get("name", "")
+@abstract func get_source() -> StringName
+@abstract func get_key() -> String
+
+func get_property_name() -> StringName:
+	var key := get_key()
+	if key.is_empty():
+		return &""
+	return StringName(get_source() + "/" + key)
