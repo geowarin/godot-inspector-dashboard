@@ -31,8 +31,9 @@ func _get_property_list() -> Array[Dictionary]:
 		var item_dict: Dictionary = {
 			"name": property_name,
 			"type": prop.type,
-			"hint": prop.hint,
+			"hint": prop.hint if prop.hint != PROPERTY_HINT_GROUP_ENABLE else PROPERTY_HINT_NONE,
 			"hint_string": prop.hint_string,
+			"class_name": prop.class_name,
 			"usage": PROPERTY_USAGE_EDITOR
 		}
 		property_list.append(item_dict)
