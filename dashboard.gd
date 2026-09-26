@@ -13,7 +13,11 @@ extends Node
 
 @export_tool_button("Refresh") var select_action: Callable = notify_property_list_changed
 
+# Rebuilt with the property list, so lookups don't resolve every item on each call.
+var _items_by_name: Dictionary[StringName, DashboardItem] = {}
+
 func _get_property_list() -> Array[Dictionary]:
+	_items_by_name.clear()
 	var property_list: Array[Dictionary] = []
 	for item in properties:
 		if item == null:
@@ -22,8 +26,10 @@ func _get_property_list() -> Array[Dictionary]:
 		var prop := item.get_property_descriptor()
 		if prop.is_empty():
 			continue
+		var property_name := StringName(item.get_property_name())
+		_items_by_name[property_name] = item
 		var item_dict: Dictionary = {
-			"name": item.get_property_name(),
+			"name": property_name,
 			"type": prop.type,
 			"hint": prop.hint,
 			"hint_string": prop.hint_string
@@ -32,10 +38,7 @@ func _get_property_list() -> Array[Dictionary]:
 	return property_list
 
 func _find_item(property: StringName) -> DashboardItem:
-	for item in properties:
-		if item != null and item.get_property_name() == property:
-			return item
-	return null
+	return _items_by_name.get(property)
 
 func _set(property: StringName, value: Variant) -> bool:
 	var item := _find_item(property)
